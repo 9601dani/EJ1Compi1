@@ -598,7 +598,7 @@ private ArrayList<Numero> numberList= new ArrayList<>();
     JOptionPane.showMessageDialog(null, result);
     result="";
         for (int i = 0; i < numberList.size(); i++) {
-            result+="Entero en linea: "+numberList.get(i).getLine()+" y columna: "+numberList.get(i).getColummn()+"\n";
+            result+="Entero en columna: "+numberList.get(i).getLine()+" y fila: "+numberList.get(i).getColummn()+"\n";
         }
     text2.setText(result);
     
