@@ -1,6 +1,10 @@
 /*primer seccion: codigo de usuario*/
 package com.mycompany.jflex;
 
+import java.util.List;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import com.mycompany.ejerciciocompi1.controller.Numero;
 %%
 
 /*segunda seccion: configuracion*/
@@ -14,7 +18,9 @@ package com.mycompany.jflex;
 ESPACIOS=[\n|\r|\n\r] | [\t\f]
 VOCALES=[A|E|I|O|U]|[a|e|i|o|u]
 LETRA = [b-dB-D]|[f-hF-H]|[j-nJ-N]|[p-tP-T]|[v-zV-Z]
+NUMERO=[0-9]
 %{
+private ArrayList<Numero> numberList= new ArrayList<>();
    private int vocal1=0;
    private int vocal2=0;
    private int vocal3=0;
@@ -58,16 +64,24 @@ LETRA = [b-dB-D]|[f-hF-H]|[j-nJ-N]|[p-tP-T]|[v-zV-Z]
     public int getVocal5() {
         return vocal5;
     }
+    public void addNumber(){
+        numberList.add(new Numero(yyline+1, yycolumn+1));
+    }   
+    public List<Numero> getNumberList(){
+        return numberList;
+    }
     
 %}
 
 
 %eof{
-    System.out.println("Letras con una Vocal: "+getVocal1());
-    System.out.println("Letras con dos Vocal: "+getVocal2());
-    System.out.println("Letras con tres Vocal: "+getVocal3());
-    System.out.println("Letras con cuatro Vocal: "+getVocal4());
-    System.out.println("Letras con cinco Vocal: "+getVocal5());
+    String result="";
+     result+="Palabras con una vocales: "+getVocal1()+"\n";
+    result+="Palabras con dos vocales: "+getVocal2()+"\n";
+    result+="Palabras con tres vocales: "+getVocal3()+"\n";
+    result+="Palabras con cuatro vocales: "+getVocal4()+"\n";
+    result+="Palabras con cinco vocales: "+getVocal5()+"\n";
+        JOptionPane.showMessageDialog(null, result);
     
 %eof}
 
@@ -82,4 +96,5 @@ LETRA = [b-dB-D]|[f-hF-H]|[j-nJ-N]|[p-tP-T]|[v-zV-Z]
 ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})*  {incrementar(3);}
 ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})*  {incrementar(4);}
 ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})* ({VOCALES}) ({LETRA})*  {incrementar(5);}
+({NUMERO})+ {addNumber();}
 [^] {}
